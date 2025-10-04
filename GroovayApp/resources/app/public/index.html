@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groovay</title>
+    <link rel="stylesheet" href="lightMode.css" id="styleSheet">
+</head>
+<body>
+    <div id="titleBar">
+        <button id="minimize">-</button>
+        <button id="maximize">□</button>
+        <button id="close">X</button>
+    </div>
+    <div id="eqStuff" style="display: none;"><!--settings Div Cba go through scripts and change id stuff-->
+        <h1>Equalizer</h1>
+        <div id="eqFlex"> 
+            <button id="eqReset">Reset</button>           
+            <div class="controls" id="controls">
+                <p>250hz</p>
+                <input type="range" class="eqOptions" id="eq250" min="-50" max="30" value="0">
+                <p>500hz</p>
+                <input type="range" class="eqOptions" id="eq500" min="-50" max="30" value="0">
+                <p>1khz</p>
+                <input type="range" class="eqOptions" id="eq1k" min="-50" max="30" value="0">
+                <p>4khz</p>
+                <input type="range" class="eqOptions" id="eq4k" min="-50" max="30" value="0">
+                <p>10khz</p>
+                <input type="range" class="eqOptions" id="eq10k" min="-50" max="30" value="0">
+                <p>bass</p>
+                <input type="range" class="eqOptions" id="bass" min="-30" max="30" value="0">
+                <p>treble</p>
+                <input type="range" class="eqOptions" id="treble" min="-30" max="30" value="0">
+            </div>
+            <div id="visualizer">
+                <canvas id="eqCanvas" width="150" height="150"></canvas>
+            </div>
+
+
+        </div>
+        <h1>Light Or Dark Mode</h1>
+        <div id="LightDark">
+            
+            <button id="lightmodeBox"> Light </button>
+        </div>
+        <h1>Change UserData</h1>
+        <div id="changeData">
+            <input type="text" id="newUsername" placeholder="Change Username">
+            <input type="text" id="changePassword" placeholder="Enter Your Password">
+        </div>
+        <h1>View and Delete Search History</h1>
+        <div id="SearchHistory">
+            <div id="viewHistoryButtons">
+                <button id="viewHistory">View</button>
+                <button id="deleteHistory">Delete</button>
+                <button id="doHistory">Saving History</button>
+            </div>
+            <p>Search history</p>
+        </div>
+        
+        
+    </div>
+    
+    <div id="Nav">
+        <button class="ButtonCss" id="account"><img src="./Resources/LightMode/Account.png" alt="Account"></button>
+        <button class="ButtonCss" id="home"><img src="./Resources/LightMode/Home.png" alt="Home"></button>
+        <button class="ButtonCss" id="Search"> <img src="./Resources/LightMode/Search.png" alt="Search"></button>
+        
+        <input type="text" id="textInput" class="ButtonCss" style="display: none;" placeholder="Enter text here">
+    </div>
+    <div id="playlistResults">
+        <div id="playlists">
+
+        </div>
+    </div>
+
+    <div id="ChangeableThing">
+        
+        <div id="Main"> MAIN </div>
+
+    
+        
+    
+
+    </div>
+    <div id="GroovAI"> 
+        <!--<div id="BlockerBar"></div>-->
+        <div id="AIChat"></div>
+        
+        <input type="text" id="GroovAIInput" placeholder="Im here To help">
+
+    </div>
+    <div id="CurrentlyPlaying">
+        <div id="CurrentSong"></div>
+        <button id="pause"><img src="./Resources/LightMode/Pause.png" alt=""></button>
+        <button id="shuffle"><img src="./Resources/LightMode/Shuffle.png" alt=""></button>
+        <button id="previousSong"><img src="./Resources/LightMode/Prev.png" alt=""></button>
+        <button id="nextSong"><img src="./Resources/LightMode/Next.png" alt=""></button>
+        <input type="range" id="ProgressBar" class="slider">
+        <input type="range" id="volume">
+    </div>
+
+    <script src="renderer.js"></script>
+    <script src="pageSwitcher.js"></script>
+    <script src="songPlayer.js"></script>
+    <script src="AIPub.js"></script>
+    <script src="eq.js"></script>
+    <script src="settingsMenu.js"></script>
+    <script src="mainFront.js"></script>
+
+</body>
+</html>

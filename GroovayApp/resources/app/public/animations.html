@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+#cock{
+    position: relative;
+    width: 100px;
+    height: 90px;
+}
+#cock:before,#cock:after{
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    
+    background-color: green;
+}
+#cock:after{
+    left: 50px;
+    top: -20px;
+    border-radius: 50%;
+    transform:rotate(90deg);
+    background-color: red;
+
+}
+
+#heart { 
+    position: relative; 
+    width: 100px; 
+    height: 90px; 
+} 
+
+#heart:before, #heart:after { 
+    position: absolute; 
+    content: ""; 
+    left: 50px; 
+    top: 0; 
+    width: 50px; 
+    height: 80px; 
+    background: red; 
+    border-radius: 50px 50px 0 0; 
+    transform: rotate(-45deg); 
+    transform-origin: 0 100%; 
+} 
+
+#heart:after { 
+    left: 0; 
+    transform: rotate(45deg); 
+    transform-origin :100% 100%; 
+}
+
+        .balls{
+            
+
+            
+            
+            height: 100%;
+            width: 100%;
+        }
+        .circle{
+            position:absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #2a2e35;
+            animation: bounce 2.5s infinite ease-in-out;
+        }
+        .circle:nth-child(1){left: 0%; animation-delay: 0s;}
+        .circle:nth-child(2){left: 2.5%; animation-delay: 0.2s;}
+        .circle:nth-child(3){left: 5%; animation-delay: 0.4s;}
+        
+        @keyframes bounce {
+            0%{top: 30%; transform: scaleY(0.8);}
+            10%{transform: scaleY(1);}
+            50%{top: 25%;transform: scaleY(1);}
+            90%{transform: scaleY(1);}
+            100%{top: 30%;transform: scaleY(0.8);}
+        }
+    </style>
+</head>
+<body>
+    <div class="balls">
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+    </div>
+
+   
+    <div id="cock"></div>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: fantasy;
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #2a2e35;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .controls {
+            margin: 10px;
+            height: 100px;
+            width: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-90deg);
+        }
+    </style>
+</head>
+<body>
+    <button id="play">PLAY</button>
+    <button id="pause">STOP</button>
+    <div class="controls" id="controls">
+        <input type="range" id="eq250" min="-50" max="30" value="0">
+        <input type="range" id="eq500" min="-50" max="30" value="0">
+        <input type="range" id="eq1k" min="-50" max="30" value="0">
+        <input type="range" id="eq4k" min="-50" max="30" value="0">
+        <input type="range" id="eq10k" min="-50" max="30" value="0">
+        <input type="range" id="bass" min="-30" max="30" value="0">
+        <input type="range" id="treble" min="-30" max="30" value="0">
+    </div>
+    <canvas id="visualizer" width="800" height="300"></canvas>
+    <script>
+        document.getElementById('eq250').value = 0
+        document.getElementById('eq500').value = 0
+        document.getElementById('eq1k').value = 0
+        document.getElementById('eq4k').value = 0
+        document.getElementById('eq10k').value = 0
+        document.getElementById('bass').value = 0
+        document.getElementById('treble').value = 0
+        const audio = new Audio('./Lovefool.mp3');
+        const playButton = document.getElementById('play');
+        const pauseButton = document.getElementById('pause');
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioContext.createMediaElementSource(audio);
+        const analyser = audioContext.createAnalyser();
+        
+        analyser.fftSize = 1024;
+        const frequencies = [250, 500, 1000, 4000, 10000];
+
+
+        const filters = frequencies.map(freq => {
+            let filter = audioContext.createBiquadFilter();
+            filter.type = 'peaking';
+            filter.frequency.value = freq;
+            filter.Q.value = 1;
+            filter.gain.value = 0;
+            return filter;
+        });
+
+        const bassFilter = audioContext.createBiquadFilter();
+        bassFilter.type = 'lowshelf';
+        bassFilter.frequency.value = 200;
+        bassFilter.gain.value = 0;
+
+        const trebleFilter = audioContext.createBiquadFilter();
+        trebleFilter.type = 'highshelf';
+        trebleFilter.frequency.value = 3000;
+        trebleFilter.gain.value = 0;
+
+        source.connect(filters[0]);
+        for (let i = 0; i < filters.length - 1; i++) {
+            filters[i].connect(filters[i + 1]);
+        }
+        filters[filters.length - 1].connect(bassFilter);
+
+        bassFilter.connect(trebleFilter);
+        trebleFilter.connect(analyser);
+        analyser.connect(audioContext.destination);
+
+        playButton.addEventListener('click', () => {
+            audioContext.resume();
+            audio.play();
+        });
+        pauseButton.addEventListener('click', () => {
+            audio.pause();
+        });
+        document.getElementById("eq250").addEventListener("input", (event) => {
+            filters[0].gain.value = event.target.value;
+        });
+        document.getElementById("eq500").addEventListener("input", (event) => {
+            filters[1].gain.value = event.target.value;
+        });
+        document.getElementById("eq1k").addEventListener("input", (event) => {
+            filters[2].gain.value = event.target.value;
+        });
+        document.getElementById("eq4k").addEventListener("input", (event) => {
+            filters[3].gain.value = event.target.value;
+        });
+        document.getElementById("eq10k").addEventListener("input", (event) => {
+            filters[4].gain.value = event.target.value;
+        });
+        document.getElementById("bass").addEventListener("input", (event) => {
+            bassFilter.gain.value = event.target.value;
+        });
+        document.getElementById("treble").addEventListener("input", (event) => {
+            trebleFilter.gain.value = event.target.value;
+        });
+
+        const canvas = document.getElementById('visualizer');
+        const ctx = canvas.getContext('2d');
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        function draw() {
+            requestAnimationFrame(draw);
+
+            analyser.getByteFrequencyData(dataArray);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.height / bufferLength) * 3.25;
+            let x = 0;
+            for (let i = 0; i < bufferLength; i++) {
+                const barHeight = dataArray[i];
+
+                ctx.fillStyle = `rgb(${barHeight + 22}, 92, 133)`;
+
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+                x += barWidth + 1;
+            }
+        }
+        draw();
+    </script>
+</body>
+</html>

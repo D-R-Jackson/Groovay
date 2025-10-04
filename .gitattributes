@@ -1,0 +1,12 @@
+# Force language for JS, HTML, CSS in both main folders
+GroovayApp/**/*.js linguist-language=JavaScript
+GroovayApp/**/*.html linguist-language=HTML
+GroovayApp/**/*.css linguist-language=CSS
+
+GroovayServer/**/*.js linguist-language=JavaScript
+GroovayServer/**/*.html linguist-language=HTML
+GroovayServer/**/*.css linguist-language=CSS
+
+# Ignore node_modules in either folder
+GroovayApp/node_modules/** linguist-vendored
+GroovayServer/node_modules/** linguist-vendored
